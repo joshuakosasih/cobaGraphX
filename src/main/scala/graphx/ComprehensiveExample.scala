@@ -13,7 +13,8 @@ import org.apache.tinkerpop.gremlin.process.traversal.P
 import org.janusgraph.core.JanusGraphFactory
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__
 import org.apache.tinkerpop.gremlin.structure.T
-import service.ParserService
+import service.{ParserService, ParserServiceScala}
+import scala.collection.JavaConverters._
 
 
 object ComprehensiveExample {
@@ -63,7 +64,7 @@ object ComprehensiveExample {
 
     val coba = g.V().has(T.label, "user").repeat(__.bothE().where(P.without("e")).store("e").otherV()).cap("e").toList()
 
-    val parser = new ParserService
+    val parser = new ParserServiceScala
 
     val jsonCoba = parser.search(coba)
 
@@ -112,7 +113,7 @@ object ComprehensiveExample {
 
 //    val userArr = jsonCoba._2
 
-    val users: RDD[(Any, Any)] = (sc.parallelize(vertexes))
+    val users: RDD[(VertexId, Object)] = (sc.parallelize(vertexes))
 
     val relationships: RDD[Edge[String]] = sc.parallelize(edges)
 
