@@ -1,0 +1,18 @@
+/opt/spark-2.3.1-bin-hadoop2.7/bin/spark-submit --class graphx.ComprehensiveExample --master local[4] target/scala-2.11/secondtry-ide_2.11-0.1.jar
+---------------graph
+plain graph:org.apache.spark.graphx.impl.GraphImpl@62a4417
+edges:4
+vertices:4
+plain in-degree:VertexRDDImpl[19] at RDD at VertexRDD.scala:57
+(3,1)
+(7,2)
+(5,1)
+[rdd_9_1]
+[rdd_9_2]
+[rdd_9_3]
+[rdd_9_0]
+()
+prof:2
+---------------
+
+Process finished with exit code 0

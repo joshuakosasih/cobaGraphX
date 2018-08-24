@@ -1,0 +1,27 @@
+[0m[[0m[0minfo[0m] [0m[0mPackaging /home/bukalapak/neo-spark/secondtry-ide/target/scala-2.11/secondtry-ide_2.11-0.1.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	service/GraphServiceImpl.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/bukalapak/neo-spark/secondtry-ide/target/scala-2.11/classes/service/GraphServiceImpl.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	service[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/bukalapak/neo-spark/secondtry-ide/target/scala-2.11/classes/service[0m
+[0m[[0m[0mdebug[0m] [0m[0m	graphx/ComprehensiveExample$$anonfun$main$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/bukalapak/neo-spark/secondtry-ide/target/scala-2.11/classes/graphx/ComprehensiveExample$$anonfun$main$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	graphx/ComprehensiveExample$$anonfun$createArray$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/bukalapak/neo-spark/secondtry-ide/target/scala-2.11/classes/graphx/ComprehensiveExample$$anonfun$createArray$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	graphx[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/bukalapak/neo-spark/secondtry-ide/target/scala-2.11/classes/graphx[0m
+[0m[[0m[0mdebug[0m] [0m[0m	connector/DependencyInjection.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/bukalapak/neo-spark/secondtry-ide/target/scala-2.11/classes/connector/DependencyInjection.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	graphx/ComprehensiveExample$$anonfun$main$2.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/bukalapak/neo-spark/secondtry-ide/target/scala-2.11/classes/graphx/ComprehensiveExample$$anonfun$main$2.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	connector/ConnectJava.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/bukalapak/neo-spark/secondtry-ide/target/scala-2.11/classes/connector/ConnectJava.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	service/ParserService.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/bukalapak/neo-spark/secondtry-ide/target/scala-2.11/classes/service/ParserService.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	connector[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/bukalapak/neo-spark/secondtry-ide/target/scala-2.11/classes/connector[0m
+[0m[[0m[0mdebug[0m] [0m[0m	graphx/ComprehensiveExample.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/bukalapak/neo-spark/secondtry-ide/target/scala-2.11/classes/graphx/ComprehensiveExample.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	graphx/ComprehensiveExample$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/bukalapak/neo-spark/secondtry-ide/target/scala-2.11/classes/graphx/ComprehensiveExample$.class[0m
+[0m[[0m[0minfo[0m] [0m[0mDone packaging.[0m
