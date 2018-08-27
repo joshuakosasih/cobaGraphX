@@ -1,14 +1,21 @@
 package connector
 
+import java.util
+
+import org.apache.tinkerpop.gremlin.groovy.engine.GremlinExecutor
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource
 import org.janusgraph.core.{JanusGraph, JanusGraphFactory}
 
-class ConnectJanus {
-  def inMemory: JanusGraph = {
-    return JanusGraphFactory.open("inmemory")
-  }
+class ConnectJanus(mode: String) {
+  var janus: JanusGraph = null
 
-  def inCassandra: JanusGraph = {
-    return JanusGraphFactory.build.
+  var g: GraphTraversalSource = null
+
+  if (mode == "inmemory") {
+    janus = JanusGraphFactory.open("inmemory")
+  }
+  else {
+    janus = JanusGraphFactory.build.
       set("gremlin.graph", "org.janusgraph.core.JanusGraphFactory").
       set("cache.db-cache", "true").
       set("cache.db-cache-clean-wait", "20").
@@ -23,5 +30,17 @@ class ConnectJanus {
       set("storage.password", null).
       set("storage.cassandra.keyspace", null).
       set("storage.port", null).open()
+  }
+
+  g = janus.traversal()
+
+  def traverseQuery(query: String): util.List[_] = {
+    val bindings = new util.HashMap[String, Object]
+    bindings.put("g", g)
+
+    val gremlinExecutor = GremlinExecutor.build.scriptEvaluationTimeout(60000).create
+    val response = gremlinExecutor.eval(query, bindings)
+
+    return response.get().asInstanceOf[util.List[_]]
   }
 }

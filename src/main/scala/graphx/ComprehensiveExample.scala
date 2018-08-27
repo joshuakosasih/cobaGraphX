@@ -1,28 +1,22 @@
 package graphx
 
-import com.google.inject.Guice
-import connector.{ConnectJava, ConnectJanus, DependencyInjection}
-import org.apache.spark.graphx._
-import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.SparkSession
-import org.apache.tinkerpop.gremlin.process.traversal.P
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__
-import org.apache.tinkerpop.gremlin.structure.T
-import org.janusgraph.core.JanusGraphFactory
+import java.util
+
+import connector.ConnectJanus
+import org.apache.tinkerpop.gremlin.groovy.engine.GremlinExecutor
 import service.ParserServiceScala
 
 object ComprehensiveExample {
 
   def main(args: Array[String]): Unit = {
 
-    val injector = Guice.createInjector(new DependencyInjection)
-    val connectJava = injector.getInstance(classOf[ConnectJava])
+    val connectJanus = new ConnectJanus("incassandra")
 
-    val connectJanus = new ConnectJanus
-    val janus = connectJanus.inCassandra
-    val g = janus.traversal()
+    var query = "g.V().has(T.label, \"user\").repeat(__.bothE().where(P.without(\"e\")).store(\"e\").otherV()).cap(\"e\").toList()"
 
-    val coba = g.V().has(T.label, "user").repeat(__.bothE().where(P.without("e")).store("e").otherV()).cap("e").toList()
+    val gremlinExecutor = GremlinExecutor.build.scriptEvaluationTimeout(60000).create
+
+    val coba: util.List[_] = connectJanus.traverseQuery(query)
 
     val parser = new ParserServiceScala
     val jsonCoba = parser.search(coba)
@@ -31,27 +25,13 @@ object ComprehensiveExample {
     val edges = parser.edges
     val defaultVertex = ("-1", "Missing")
 
-    println("Starting spark session")
-    val spark = SparkSession
-      .builder
-      .appName(s"${this.getClass.getSimpleName}")
-      .getOrCreate()
-
-    val sc = spark.sparkContext
-
     val nullCount = vertexes.count(p => Option(p) == None)
     println("Cleaning " + nullCount + " null values from vertex array")
     val newvertexes = vertexes.dropRight(nullCount)
 
-    val users: RDD[(VertexId, Object)] = sc.parallelize(newvertexes)
-    println("Spark vertex created, # of element: " + users.count())
+    val graphx = new SparkGraphx
 
-    val relationships: RDD[Edge[String]] = sc.parallelize(edges)
-    println("Spark edge created, # of element: " + relationships.count())
-
-    println("Creating spark graph")
-
-    val graph = Graph(users, relationships, defaultVertex)
+    val graph = graphx.createGraph(newvertexes, edges, defaultVertex)
 
     println("---------------graph")
     println("plain graph:" + graph)
