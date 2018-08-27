@@ -12,6 +12,7 @@ import org.apache.spark.sql.SparkSession
 import org.apache.tinkerpop.gremlin.process.traversal.P
 import org.janusgraph.core.JanusGraphFactory
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__
+import org.apache.tinkerpop.gremlin.process.traversal.Traversal
 import org.apache.tinkerpop.gremlin.structure.T
 import service.{ParserService, ParserServiceScala}
 import scala.collection.JavaConverters._
@@ -58,9 +59,6 @@ object ComprehensiveExample {
     val g = janus.traversal()
 
     println( g.V().has(T.label, "user").repeat(__.bothE().where(P.without("e")).store("e").otherV()).cap("e").toList() )
-//    println( g.V().has(T.label, "user").repeat(__.bothE().where(P.without("e")).store("e").otherV()).cap("e").valueMap(true).toList() )
-
-    println(Array((3L, ("rxin", "student"))).deep.mkString("\n"))
 
     val coba = g.V().has(T.label, "user").repeat(__.bothE().where(P.without("e")).store("e").otherV()).cap("e").toList()
 
@@ -68,16 +66,11 @@ object ComprehensiveExample {
 
     val jsonCoba = parser.search(coba)
 
-//    println(jsonCoba)
-
     val vertexes = parser.vertexes
 
     val edges = parser.edges
 
-//    println( g.E().valueMap(true).toList() )
-//    println( g.V().toList() )
-//    println( g.V().valueMap(true).toList() )
-//    val testList = g.V().toList()
+    val defaultVertex = ("0", "Missing")
 
     var userArr = Array(
       (3L, ("rxin", "student")),
@@ -85,22 +78,24 @@ object ComprehensiveExample {
       (5L, ("franklin", "prof")),
       (2L, ("istoica", "prof"))
     )
+//
+//    println(userArr.deep)
+//    println(vertexes)
+//    val seqVertex =  vertexes.toSeq
+//    println(seqVertex)
 
-    println(userArr.deep)
-    println(vertexes)
-    val seqVertex =  vertexes.toSeq
-    println(seqVertex)
 
-
-    val relationshipArr = Array(
-      Edge(3L, 7L, "collab"),
-      Edge(5L, 3L, "advisor"),
-      Edge(2L, 5L, "colleague"),
-      Edge(5L, 7L, "pi")
-    )
+//    val relationshipArr = Array(
+//      Edge(3L, 7L, "collab"),
+//      Edge(5L, 3L, "advisor"),
+//      Edge(2L, 5L, "colleague"),
+//      Edge(5L, 7L, "pi")
+//    )
 //
 //    println(relationshipArr.deep)
 //    println(jsonCoba._1)
+
+    println("Starting spark session")
 
     val spark = SparkSession
       .builder
@@ -109,23 +104,44 @@ object ComprehensiveExample {
 
     val sc = spark.sparkContext
 
+    println("Cleaning vertex array")
+    val nullCount = vertexes.count(p => Option(p) == None)
+    println("Null count: " + nullCount)
+    val newvertexes = vertexes.dropRight(nullCount)
 
+    println("Creating spark vertex")
 
-//    val userArr = jsonCoba._2
+    val users: RDD[(VertexId, Object)] = (sc.parallelize(newvertexes))
+    println("Spark vertex created, # of element: " + users.count())
+    println("Collection: " + users.collect())
+    println("Deep: " + users.collect().deep)
 
-    val users: RDD[(VertexId, Object)] = (sc.parallelize(vertexes))
+    println("Creating another spark vertex")
+
+    val userArrRdd: RDD[(VertexId, Object)] = (sc.parallelize(userArr))
+    println("Spark vertex 2 created, # of element: " + userArrRdd.count())
+    println("Collection 2: " + userArrRdd.collect())
+    println("Deep 2: " + userArrRdd.collect().deep)
+
+//    val tempVertexRdd = VertexRDD(users)
+//    println("Spark vertexrdd created, # of element: " + tempVertexRdd.count())
+
+    println("Creating spark edge")
 
     val relationships: RDD[Edge[String]] = sc.parallelize(edges)
+    println("Spark edge created, # of element: ", relationships.count())
 
-    val graph = Graph(users, relationships)
+    println("Creating spark graph")
+
+    val graph = Graph(users, relationships, defaultVertex)
 
     println("---------------graph")
     println("plain graph:" + graph)
     println("edges:" + graph.numEdges)
-    println("vertices:" + graph.numVertices)
     println("plain in-degree:" + graph.inDegrees)
     println(graph.inDegrees.foreach(println))
-    println("postdoc:" + graph.vertices.filter { case (id, (name, pos)) => pos == "postdoc" }.count)
+    println("vertices:" + graph.numVertices)
+    println("genap:" + graph.vertices.filter { case (id, (name, pos)) => name == "1" }.count)
     println("---------------")
   }
 }

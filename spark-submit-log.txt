@@ -1,18 +1,32 @@
-/opt/spark-2.3.1-bin-hadoop2.7/bin/spark-submit --class graphx.ComprehensiveExample --master local[4] target/scala-2.11/secondtry-ide_2.11-0.1.jar
+/opt/spark-2.3.1-bin-hadoop2.7/bin/spark-submit --class graphx.ComprehensiveExample --master local[4] target/scala-2.11/secondtry-ide-assembly-0.1.jar
+[{e[4qs-36o-3yt-38o][4128-friend->4200]=1, e[4ck-36o-3yt-6cg][4128-friend->8224]=1, e[2s5-3ag-3yt-36o][4264-friend->4128]=1, e[2dx-3ag-3yt-36g][4264-friend->4120]=1, e[2rn-36g-3yt-3a0][4120-friend->4248]=1, e[2df-36g-3yt-3a8][4120-friend->4256]=1}]
+Instance of Bulkset
+Starting spark session
+Cleaning vertex array
+Null count: 5
+Creating spark vertex
+Spark vertex created, # of element: 7
+Collection: [Lscala.Tuple2;@3ab595c8
+Deep: Array((4200,(7,user)), (4128,(3,user)), (8224,(6,user)), (4264,(1,user)), (4120,(2,user)), (4248,(5,user)), (4256,(4,user)))
+Creating another spark vertex
+Spark vertex 2 created, # of element: 4
+Collection 2: [Lscala.Tuple2;@78d92eef
+Deep 2: Array((3,(rxin,student)), (7,(jgonzal,postdoc)), (5,(franklin,prof)), (2,(istoica,prof)))
+Creating spark edge
+(Spark edge created, # of element: ,6)
+Creating spark graph
 ---------------graph
-plain graph:org.apache.spark.graphx.impl.GraphImpl@62a4417
-edges:4
-vertices:4
+plain graph:org.apache.spark.graphx.impl.GraphImpl@79add732
+edges:6
 plain in-degree:VertexRDDImpl[19] at RDD at VertexRDD.scala:57
-(3,1)
-(7,2)
-(5,1)
-[rdd_9_1]
-[rdd_9_2]
-[rdd_9_3]
-[rdd_9_0]
+[rdd_10_1]
+[rdd_10_2]
+[rdd_10_3]
+(4264,2)
+(4120,2)
+(4128,2)
+[rdd_10_0]
 ()
-prof:2
+vertices:7
+genap:1
 ---------------
-
-Process finished with exit code 0
