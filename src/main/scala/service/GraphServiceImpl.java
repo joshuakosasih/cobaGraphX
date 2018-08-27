@@ -1,7 +1,6 @@
 package service;
 
 import bl.core.neo.graph.service.GraphService;
-import com.google.inject.Inject;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.janusgraph.core.JanusGraph;
 import org.janusgraph.core.JanusGraphFactory;
