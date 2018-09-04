@@ -2,21 +2,28 @@ package graphx
 
 import java.util
 
-import connector.ConnectJanus
-import org.apache.tinkerpop.gremlin.groovy.engine.GremlinExecutor
+import bl.core.neo.graph.db.UserDB
+import com.google.inject.Guice
+import connector.{ConnectJanus, DependencyInjection}
+import org.apache.tinkerpop.gremlin.structure.Vertex
 import service.ParserServiceScala
 
 object ComprehensiveExample {
 
   def main(args: Array[String]): Unit = {
 
-    val connectJanus = new ConnectJanus("incassandra")
+    val injector = Guice.createInjector(new DependencyInjection)
+    val userDB = injector.getInstance(classOf[UserDB])
 
-    var query = "g.V().has(T.label, \"user\").repeat(__.bothE().where(P.without(\"e\")).store(\"e\").otherV()).cap(\"e\").toList()"
+    val connectJanus = new ConnectJanus
 
-    val gremlinExecutor = GremlinExecutor.build.scriptEvaluationTimeout(60000).create
+//    var query = "g.V().has(T.label, \"user\").repeat(__.bothE().where(P.without(\"e\")).store(\"e\").otherV()).cap(\"e\").toList()"
+//    val gremlinExecutor = GremlinExecutor.build.scriptEvaluationTimeout(60000).create
+//    val coba: util.List[_] = connectJanus.traverseQuery(query)
 
-    val coba: util.List[_] = connectJanus.traverseQuery(query)
+    val corecobavertex: Vertex = userDB.getUserVertex(1)
+
+    val coba: util.List[_] = connectJanus.demoTraverse()
 
     val parser = new ParserServiceScala
     val jsonCoba = parser.search(coba)

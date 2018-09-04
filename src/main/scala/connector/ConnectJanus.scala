@@ -2,11 +2,17 @@ package connector
 
 import java.util
 
+import bl.core.neo.graph.service.GraphService
 import org.apache.tinkerpop.gremlin.groovy.engine.GremlinExecutor
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource
+import org.apache.tinkerpop.gremlin.process.traversal.P
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.{GraphTraversalSource, __}
+import org.apache.tinkerpop.gremlin.structure.T
 import org.janusgraph.core.{JanusGraph, JanusGraphFactory}
 
-class ConnectJanus(mode: String) {
+class ConnectJanus() extends GraphService {
+
+  var mode: String = ""
+
   var janus: JanusGraph = null
 
   var g: GraphTraversalSource = null
@@ -42,5 +48,18 @@ class ConnectJanus(mode: String) {
     val response = gremlinExecutor.eval(query, bindings)
 
     return response.get().asInstanceOf[util.List[_]]
+  }
+
+  def demoTraverse(): util.List[_] = {
+    val res = g.V().has(T.label, "user").repeat(__.bothE().where(P.without("e")).store("e").otherV()).cap("e").toList()
+    return res
+  }
+
+  override def getGraph: JanusGraph = {
+    return janus
+  }
+
+  override def getGraphTraversal: GraphTraversalSource = {
+    return g
   }
 }
